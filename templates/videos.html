@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %} Videos {% endblock %}
+{% block head %}
+{{ super() }}
+<!-- Bootstrap CSS for styling -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center">Videos</h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <input type="text" id="search" class="form-control" placeholder="Search by title..." />
+        </div>
+        <div class="col-md-6">
+            <select id="sort" class="form-control">
+                <option value="latest">Sort by Latest</option>
+                <option value="oldest">Sort by Oldest</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="video-list" class="row mt-4">
+        {% for video in videos %}
+        <div class="col-md-4 video-item">
+            <div class="card mb-4">
+                <iframe class="card-img-top" src="{{ video.embed_url }}" frameborder="0" allowfullscreen></iframe>
+                <div class="card-body">
+                    <h5 class="card-title">{{ video.title }}</h5>
+                    <p class="card-text">Uploaded on: {{ video.upload_date.strftime('%B %d, %Y') }}</p>
+                    <a href="#" class="btn btn-primary"><i class="fas fa-play"></i> Watch</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- JavaScript for search and sort functionality -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='js/videos.js') }}"></script>
+{% endblock %}

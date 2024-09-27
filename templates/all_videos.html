@@ -1,0 +1,124 @@
+{% extends "base_dashboard.html" %}
+{% block title %}All Videos{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+<form action="{{ url_for('add_video')}}" method="post">
+    <div class="alert">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <span class="closebtn">&times;</span>
+        <div class="{{ category }}">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">All Videos</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr style="text-align:center ;">
+                            <th>Title</th>
+                            <th>Link</th>
+                            <th>Date Uploaded</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>{% for i in record %}
+                            <td>{{i['Title']}}</td>
+                            <td>{{i['Link']}}</td>
+                            <td>{{i['upload_date']}}</td>
+                            </td>
+                            <td>
+                                <a href="#" class="delete-btn" data-video-link="{{ i['Link'] }}">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </td>
+
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    Are you sure you want to delete this video?
+                    {% for i in record %}
+                    <input type="hidden" id="{{ i['Link'] }}">
+                    {% endfor %}
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // When delete button is clicked
+        $(document).on('click', '.delete-btn', function() {
+            // Get the video link from the data attribute
+            var videoLink = $(this).data('video-link');
+            // Store the video link in a hidden input in the modal
+            $('#videoLinkToDelete').val(videoLink);
+            // Show the delete confirmation modal
+            $('#deleteModal').modal('show');
+        });
+    
+        // When the delete button in the modal is clicked
+        $('#confirmDeleteBtn').on('click', function() {
+            var videoLink = $('#videoLinkToDelete').val(); // Get the stored video link
+    
+            $.ajax({
+                url: '/admin/video/' + videoLink + '/delete/', // URL for the delete route
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ confirm: 'YES' }), // Send confirmation via JSON
+                success: function(response) {
+                    if (response.status === 'success') {
+                        // Hide the modal
+                        $('#deleteModal').modal('hide');
+    
+                        // Remove the deleted video row from the table
+                        $('a[data-video-link="' + videoLink + '"]').closest('tr').remove();
+    
+                        // Optionally show a success message using a flash message or alert
+                        alert(response.message);
+                    }
+                },
+                error: function(xhr) {
+                    alert('Error: ' + xhr.responseJSON.message);
+                }
+            });
+        });
+    </script>
+    
+
+    {% endblock %}

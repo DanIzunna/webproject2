@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %} About Us {% endblock %}
+
+{% block head %}
+{{ super() }}
+<!-- Custom CSS for loading effect -->
+<style>
+    .team-member {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .team-member.loaded {
+        opacity: 1;
+        transform: translateY(0);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Get to Know Us</h1>
+    <p class="text-center">
+        We started as an educational center in the city of Port Harcourt, aiming to provide affordable training to those in the garden city of Nigeria. 
+        It's been over four years now, and we are still in the business of providing quality education for professionals. 
+        We began with just one course, but we currently have multiple courses on our platform, with technically sound individuals signed up as tutors.
+    </p>
+
+    <h2 class="mt-5">Our Mission</h2>
+    <p>
+        We are on a mission to make tech education more effective by ensuring a direct connection between tutor and student.
+    </p>
+
+    <h2 class="mt-5">Our Vision</h2>
+    <p>
+        We have a vision to educate the continent of Africa into innovation. We want to see that everyone we train gets a good grasp of what they are taught, 
+        and it becomes inevitable that they apply this knowledge to bring solutions to challenges facing the people of the continent.
+    </p>
+
+    <h2 class="mt-5">Our Team</h2>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="team-member" id="member1">
+                <img src="path/to/nikson.jpg" alt="Nikson Kejeh" class="img-fluid rounded-circle mb-3">
+                <h5>Nikson Kejeh</h5>
+                <p>Chief Operating Officer</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="team-member" id="member2">
+                <img src="path/to/ezinne.jpg" alt="Ezinne Kalu" class="img-fluid rounded-circle mb-3">
+                <h5>Ezinne Kalu</h5>
+                <p>Community Manager</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="team-member" id="member3">
+                <img src="path/to/osamuyi.jpg" alt="Osamuyi Osaghae" class="img-fluid rounded-circle mb-3">
+                <h5>Osamuyi Osaghae</h5>
+                <p>Digital Marketer</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="team-member" id="member4">
+                <img src="path/to/oghenetega.jpg" alt="Oghenetega Stanley" class="img-fluid rounded-circle mb-3">
+                <h5>Oghenetega Stanley</h5>
+                <p>Graphics Designer</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<!-- Link to the external JavaScript file -->
+<script src="{{ url_for('static', filename='js/about.js') }}"></script>
+{% endblock %}

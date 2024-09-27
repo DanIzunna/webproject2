@@ -1,0 +1,54 @@
+{% extends "base_dashboard.html" %}
+{% block title %} {% for i in record %}
+{{i['Title']}} | Preview
+{% endfor %} {% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+
+    <div class="alert">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <span class="closebtn">&times;</span>
+        <div class="{{ category }}">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/blog_styles.css')}}">
+    </head>
+    <header class="masthead" style="background-image: url('{{ image_url }}'); height: 100vh; background-size: cover; background-position: center;">
+        <!-- To change the background image to another thing not the whole link... -->
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    {% for i in record %}
+                    <div class="post-heading">
+                        <h1>{{i['Title'].replace('-', ' ').title() |safe}}</h1>
+                        <h2 class="subheading">{{i['Title'].replace('-', ' ').title() |safe }} Subheading</h2>
+                        <span class="meta">
+                            &bullet; <a href="#!">{{i['author']}}</a>
+                            &bullet; <a href="#">{{i['publish_date']}}</a>
+                            &bullet; <a href="#">{{i['category']}}</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Post Content-->
+    <article class="mb-4">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    {{i['Body']| safe}}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </article>
+
+    {% endblock %}

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% extends "base.html" %}  <!-- Extend your base template -->
+
+    {% block head %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon - Your Website Name</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #6e7dff, #7c8cff);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: fadeInDown 1s;
+        }
+
+        p {
+            font-size: 1.5rem;
+            animation: fadeInUp 1s;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .countdown div {
+            margin: 0 10px;
+            text-align: center;
+            animation: fadeIn 1s;
+        }
+
+        .countdown div h2 {
+            font-size: 3rem;
+            margin: 0;
+        }
+
+        .countdown div p {
+            font-size: 1.2rem;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+    {% endblock %}
+</head>
+
+<body>
+
+    {% block content %}  <!-- Main content block -->
+    <div class="container">
+        <h1>Coming Soon</h1>
+        <p>We're working hard to launch our new website. Stay tuned!</p>
+
+        <div class="countdown">
+            <div>
+                <h2 id="days">00</h2>
+                <p>Days</p>
+            </div>
+            <div>
+                <h2 id="hours">00</h2>
+                <p>Hours</p>
+            </div>
+            <div>
+                <h2 id="minutes">00</h2>
+                <p>Minutes</p>
+            </div>
+            <div>
+                <h2 id="seconds">00</h2>
+                <p>Seconds</p>
+            </div>
+        </div>
+    </div>
+    {% endblock %}  <!-- End of content block -->
+
+    {% block scripts %}  <!-- Optional block for scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Set the date we're counting down to
+        const countDownDate = new Date("Jan 1, 2025 23:59:59").getTime();
+
+        // Update the countdown every 1 second
+        const x = setInterval(function () {
+            const now = new Date().getTime();
+            const distance = countDownDate - now;
+
+            // Time calculations for days, hours, minutes, and seconds
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the result in the corresponding elements
+            document.getElementById("days").innerHTML = days;
+            document.getElementById("hours").innerHTML = hours;
+            document.getElementById("minutes").innerHTML = minutes;
+            document.getElementById("seconds").innerHTML = seconds;
+
+            // If the countdown is finished, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                document.querySelector('.container').innerHTML = "<h1>Launched!</h1><p>Our website is live now!</p>";
+            }
+        }, 1000);
+    </script>
+    {% endblock %}  <!-- End of scripts block -->
+
+</body>
+
+</html>

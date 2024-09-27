@@ -1,0 +1,39 @@
+{% extends "base_dashboard.html" %}
+{% block title %}Add Video{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+<form action="{{ url_for('add_video')}}" method="post">
+    <div class="alert">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <span class="closebtn">&times;</span>
+        <div class="{{ category }}">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+
+    <h2>Add Video</h2>
+    <div class="input-container">
+        <i class="fa fa-video icon"></i>
+        <input type="text" name="title" placeholder="Video Title" id="first_name" class="input-field" required>
+    </div>
+
+    <div class="input-container">
+        <i class="fa fa-link icon"></i>
+        <input type="text" name="link" class="input-field" placeholder="Video URL" id="link">
+    </div>
+    <div class="input-container">
+        <i class="fa fa-calendar icon"></i>
+        <input type="date" name="upload_date" class="input-field" placeholder="Upload Date" id="upload_date"
+            value="{{ upload_date}}">
+    </div>
+    <button type="submit" class="btn">Add Video</button>
+</form>
+
+</body>
+{% endblock %}

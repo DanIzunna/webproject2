@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+{% extends "base_dashboard.html" %}
+{% block title %}Edit Blog{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+<html>
+
+<body>
+
+
+    {% block content %}
+    <form action="{{ url_for('save_blog')}}" method="post">
+        <div class="alert">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <span class="closebtn">&times;</span>
+            <div class="{{ category }}">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+
+        <h1>Edit Blog</h1>
+        {% for i in record %}
+        <div class="input-container">
+            <i class="fa fa-user icon"></i>
+            <input type="text" name="title" placeholder="Blog Title" class="input-field" value="{{i['Title']}}" readonly>
+        </div>
+
+        <div class="input-container">
+            <i class="fa fa-text"></i>
+            <textarea   type="text" name="body" id="summernote" class="input-field" required>{{i['Body']}}</textarea>
+        </div>
+
+        <div class="input-container">
+            <i class="fa fa-user icon"></i>
+            <input type="text" name="category" class="input-field" placeholder="Category" value="{{i['category']}}" id="category">
+        </div>
+        <div class="input-container">
+            <i class="fa fa-user icon"></i>
+            <input class="input-field" type="text" placeholder="author" name="author"
+                value="{{ i['author'] }}" readonly>
+        </div>
+        <div class="input-container">
+            <i class="fa fa-calendar icon"></i>
+            <input type="date" name="publish_date" class="input-field" placeholder="Publish Date" id="publish_date"
+                value="{{i['publish_date']}}" readonly>
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn">Save Update</button>
+    </form>
+
+    <script>
+        $(document).ready(function () {
+            $('#summernote').summernote({
+                placeholder: 'Blog Content',
+                tabsize: 50,
+                height: 100,
+                
+
+            })
+        });
+    </script>
+
+</body>
+{% endblock %}
+
+
+</html>

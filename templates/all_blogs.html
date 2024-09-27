@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %} Blog {% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/blog_styles.css')}}">
+</head>
+<header class="masthead" style="background-image: url('{{ image_url }}');">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1 style="color: aqua;">TE Quant Blog</h1>
+                    <span class="subheading">A Blog by TE Quant Team</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Main Content-->
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <!-- Post preview-->
+            {% for i in blogs %}
+
+            <div class="post-preview">
+                <a href="{{ url_for('blog_post', blog_link = i['blog_link']) }}">
+                    <h2 class="post-title">{{i['Title']}}</h2>
+                    <h3 class="post-subtitle">
+                        {{i['Body'][0:100]|safe}}...
+                        <!--Subheading.. To add subheading to make it cool-->
+                    </h3>
+                </a>
+                <p class="post-meta">
+                    Posted by
+                    <a href="#!">{{i['author']}}</a>
+                    on
+                    <!--<a href="#">To add the date as a link to display posts made on that day</a>-->
+                    {{i['publish_date']}}
+                </p>
+
+            </div>
+            <!-- Divider-->
+            <hr class="my-4" />
+
+            {% else %}
+            <h5>No Posts</h5>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

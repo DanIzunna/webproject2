@@ -1,0 +1,45 @@
+{% extends "base_dashboard.html" %}
+{% block title %} Add Admin Account {% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+
+<body>
+
+    <form action="{{ url_for('create_admin') }}" method="POST" style="max-width:350px;margin:auto">
+        <div class="alert">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <span class="closebtn">&times;</span>
+            <div class="{{ category }}">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+
+        <h2 class="title">Add Admin</h2>
+        <div class="input-container">
+            <i class="fa fa-user icon"></i>
+            <input class="input-field" type="text" placeholder="First Name" name="first_name" required>
+        </div>
+
+        <div class="input-container">
+            <i class="fa fa-user icon"></i>
+            <input class="input-field" type="text" placeholder="Last Name" name="last_name">
+        </div>
+
+        <div class="input-container">
+            <i class="fa fa-envelope icon"></i>
+            <input class="input-field" type="text" placeholder="Email" name="email" required />
+        </div>
+
+        <div class="input-container">
+            <i class="fa fa-key icon"></i>
+            <input class="input-field" type="password" placeholder="Password" name="password" required>
+        </div>
+        <button type="submit" class="btn">Add Admin</button>
+    </form>
+</body>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "base_dashboard.html" %}
+{% block title %}Add Blog{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+<form action="{{ url_for('add_blog')}}" method="post">
+    <div class="alert">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <span class="closebtn">&times;</span>
+        <div class="{{ category }}">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+
+    <h2>Add Blog</h2>
+    <div class="input-container">
+        <i class="fa fa-pen icon"></i>
+        <input type="text" name="title" placeholder="Blog Title" id="first_name" class="input-field" required>
+    </div>
+
+    <div class="input-container">
+        <i class="fa fa-text"></i>
+        <textarea type="text" name="body" placeholder="Body" id="summernote" required></textarea>
+    </div>
+
+    <div class="input-container">
+        <i class="fa fa-tags icon"></i>
+        <input type="text" name="category" class="input-field" placeholder="Category" id="category">
+    </div>
+    <div class="input-container">
+        <i class="fa fa-user icon"></i>
+        {% for i in names %}
+        <input class="input-field" type="text" placeholder="author" name="author"
+            value="{{ i['first_name'] }} {{ i['last_name'] }}" readonly>
+        {% endfor %}
+    </div>
+    <div class="input-container">
+        <i class="fa fa-calendar icon"></i>
+        <input type="date" name="publish_date" class="input-field" placeholder="Publish Date" id="publish_date"
+            value="{{ publish_date}}">
+    </div>
+    <button type="submit" class="btn">Add Blog</button>
+</form>
+<script>
+    $(document).ready(function () {
+        $('#summernote').summernote({
+            placeholder: 'Blog Content',
+            tabsize: 50,
+            height: 100,
+            color: 'black'
+
+        })
+    });
+</script>
+
+</body>
+{% endblock %}
+
+
+</html>
